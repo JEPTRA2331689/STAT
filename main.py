@@ -68,4 +68,4 @@ def my_home_screen(athlete_id):
 
 # Lancement de l'application Flask
 if __name__ == '__main__':
-    app.run(debug=True,)
+    app.run(port=5000,)
