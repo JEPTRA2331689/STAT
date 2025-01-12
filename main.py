@@ -60,6 +60,9 @@ def athlete_game():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/',methods=['POST'])
+def starter():
+    return jsonify({"bienvenue"}), 200
 @app.route('/athlete',methods=['POST'])
 def athlete():
     print(request.get_json())
