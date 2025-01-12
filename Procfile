@@ -1,0 +1,1 @@
+web: gunicorn main:app -t600 --keep-alive 600
