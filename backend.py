@@ -3,6 +3,7 @@
 import pymysql
 from flask import g
 
+
 def get_db():
     if 'db' not in g:
         g.db = pymysql.connect(
@@ -13,13 +14,15 @@ def get_db():
             port=3306,  # Port MySQL par défaut (modifiable dans XAMPP)
             charset="utf8mb4",  # Encodage des caractères
             cursorclass=pymysql.cursors.DictCursor  # Pour recevoir les résultats sous forme de dictionnaired
-)
+        )
     return g.db
+
 
 def close_db(error=None):
     db = g.pop('db', None)
     if db is not None:
         db.close()
+
 
 def get_all_players():
     try:
@@ -60,6 +63,8 @@ def get_all_players():
         return []
     finally:
         close_db()
+
+
 def get_all_teams():
     try:
         db = get_db()
@@ -70,6 +75,8 @@ def get_all_teams():
                     t.teamName AS TeamName,
                     t.sportName AS SportName,
                     t.division AS DivisionName
+                    t.primaryColor AS primaryColor,
+                    t.secondaryColor AS secondaryColor
                 FROM 
                     team t
             """
@@ -80,7 +87,9 @@ def get_all_teams():
                     "teamId": row['teamId'],
                     "TeamName": row['TeamName'],
                     "sportName": row['SportName'],
-                    "division": row['DivisionName']
+                    "division": row['DivisionName'],
+                    "primaryColor": row['primaryColor'],
+                    "secondaryColor": row['secondaryColor']
                 }
                 for row in results
             ]
@@ -250,4 +259,3 @@ def get_team_players(team_id):
     except Exception as e:
         print(f"Erreur : {e}")
         return {"error": str(e)}
-
