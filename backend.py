@@ -212,3 +212,42 @@ def get_athlete(athlete_id):
         print(f"Erreur : {e}")
         return {"error": str(e)}
 
+
+def get_team_players(team_id):
+    db = get_db()  # Connexion à la base de données
+    try:
+        with db.cursor() as cursor:
+            # Requête pour récupérer les athlètes d'une équipe
+            sql = """
+            SELECT 
+                a.athletesId,
+                a.firstName,
+                a.lastName,
+                a.position,
+                a.number,
+                a.height,
+                a.weight,
+                a.img,
+                t.teamName,
+                t.sportName,
+                t.division,
+                t.primaryColor,
+                t.secondaryColor
+            FROM 
+                athletes a
+            LEFT JOIN 
+                team t ON a.teamId = t.teamId
+            WHERE 
+                a.teamId = %s
+            """
+            cursor.execute(sql, (team_id,))
+            result = cursor.fetchall()
+
+            if not result:
+                return {"error": "No players found for this team"}
+            return result
+
+    except Exception as e:
+        print(f"Erreur : {e}")
+        return {"error": str(e)}
+

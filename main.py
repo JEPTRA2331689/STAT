@@ -1,7 +1,7 @@
 # app.py
 from flask import Flask, jsonify,request
 
-from backend import get_all_players, get_athlete_stats, close_db, get_all_teams, get_game, get_athlete
+from backend import get_all_players, get_athlete_stats, close_db, get_all_teams, get_game, get_athlete, get_team_players
 from flask import g
 
 app = Flask(__name__)
@@ -75,6 +75,22 @@ def athlete():
     try:
 
         stats = get_athlete(athlete_id)
+        return jsonify(stats), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/teamPlayer',methods=['POST'])
+def teamPlayer():
+    print(request.get_json())
+
+    data = request.get_json()
+
+    if not data or 'team_id' not in data:
+        return jsonify({"error": "Missing athlete_id"}), 400
+    team_id = data['team_id']
+    try:
+
+        stats = get_team_players(team_id)
         return jsonify(stats), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
