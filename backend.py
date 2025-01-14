@@ -74,29 +74,35 @@ def get_all_teams():
                     t.teamId AS teamId,
                     t.teamName AS TeamName,
                     t.sportName AS SportName,
-                    t.division AS DivisionName
-                    t.primaryColor AS primaryColor,
-                    t.secondaryColor AS secondaryColor
+                    t.division AS DivisionName,
+                    t.primaryColor AS PrimaryColor,
+                    t.secondaryColor AS SecondaryColor
                 FROM 
-                    team t
+                    team AS t
             """
+            print("Exécution de la requête SQL...")
             cursor.execute(sql)
             results = cursor.fetchall()
-            players = [
+            print(f"Résultats bruts : {results}")
+
+            teams = [
                 {
                     "teamId": row['teamId'],
                     "TeamName": row['TeamName'],
                     "sportName": row['SportName'],
                     "division": row['DivisionName'],
-                    "primaryColor": row['primaryColor'],
-                    "secondaryColor": row['secondaryColor']
+                    "primaryColor": row['PrimaryColor'],
+                    "secondaryColor": row['SecondaryColor']
                 }
                 for row in results
             ]
-        return players
+            print(f"Résultats formatés : {teams}")
+        return teams
+
     except Exception as e:
-        print(f"Error fetching players: {e}")
-        return []
+        print(f"Erreur lors de l'exécution de la requête : {e}")
+        return {"error": str(e)}
+
     finally:
         close_db()
 

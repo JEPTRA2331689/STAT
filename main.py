@@ -23,6 +23,7 @@ def athletes():
 def teams():
     try:
             players = get_all_teams()
+            print(players)
             return jsonify(players), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
