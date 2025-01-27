@@ -148,7 +148,7 @@ def get_game(team_id, order="DESC"):
             sql = f"""
                 SELECT 
                     tg.gameId,
-                    tg.gameDate,
+                    DATE_FORMAT(tg.gameDate, '%%Y-%%m-%%d %%H:%%i:%%s') AS gameDate,
                     tg.visitingTeamId,
                     tg.homeTeamId,
                     tg.visitingTeamScore,
@@ -156,16 +156,6 @@ def get_game(team_id, order="DESC"):
                     t1.teamName AS visitingTeamName,
                     t2.teamName AS homeTeamName,
                     gs.*
-
-
-
-
-
-
-
-
-
-
                 FROM 
                     TeamGames tg
                 LEFT JOIN 
@@ -178,7 +168,7 @@ def get_game(team_id, order="DESC"):
                     tg.visitingTeamId = %s OR tg.homeTeamId = %s
                 ORDER BY 
                     tg.gameDate {order};
-                """
+            """
             cursor.execute(sql, (team_id, team_id))
             results = cursor.fetchall()
             print(results)
