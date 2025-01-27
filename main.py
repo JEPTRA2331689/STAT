@@ -22,7 +22,7 @@ def athletes():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 @app.route('/one', methods=['POST','GET'])
-def athletes():
+def one():
     data = request.get_json()
 
     if not data or 'athlete_id' not in data:
