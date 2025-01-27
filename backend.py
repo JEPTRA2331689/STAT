@@ -178,7 +178,48 @@ def get_game(team_id, order="DESC"):
         print(f"Erreur : {e}")
         return None
 
-
+def get_players(athlete_id):
+    try:
+        db = get_db()
+        with db.cursor() as cursor:
+            sql = """
+                SELECT 
+                    a.firstName AS AthleteFirstName,
+                    a.lastName AS AthleteLastName,
+                    a.athletesId AS athletesId,
+                    a.teamId AS teamId,
+                    a.img AS AthleteImage,
+                    t.teamName AS TeamName,
+                    t.sportName AS SportName,
+                    t.division AS DivisionName
+                FROM 
+                    athletes a
+                LEFT JOIN 
+                    team t ON a.teamId = t.teamId
+                WHERE 
+                a.athletesId = %s;
+                
+            """
+            cursor.execute(sql,(athlete_id,))
+            results = cursor.fetchall()
+            players = [
+                {
+                    "full_name": f"{row['AthleteFirstName']} {row['AthleteLastName']}",
+                    "athletesId": row['athletesId'],
+                    "teamId": row['teamId'],
+                    "AthleteImage": row['AthleteImage'],
+                    "TeamName": row['TeamName'],
+                    "sportName": row['SportName'],
+                    "division": row['DivisionName']
+                }
+                for row in results
+            ]
+        return players
+    except Exception as e:
+        print(f"Error fetching players: {e}")
+        return []
+    finally:
+        close_db()
 def get_athlete(athlete_id):
     db = get_db()  # Connexion à la base de données
     try:

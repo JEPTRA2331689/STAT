@@ -1,7 +1,8 @@
 # app.py
 from flask import Flask, jsonify,request
 
-from backend import get_all_players, get_athlete_stats, close_db, get_all_teams, get_game, get_athlete, get_team_players
+from backend import get_all_players, get_athlete_stats, close_db, get_all_teams, get_game, get_athlete, \
+    get_team_players, get_players
 from flask import g
 
 app = Flask(__name__)
@@ -13,9 +14,16 @@ def teardown_db(exception):
 # Route pour récupérer les informations des athlètes
 @app.route('/athletes', methods=['POST','GET'])
 def athletes():
+    data = request.get_json()
+
+    if not data or 'athlete_id' not in data:
+        players = get_all_players()
+        return jsonify(players), 200
+    athlete_id = data['athlete_id']
     try:
-            players = get_all_players()
-            return jsonify(players), 200
+
+        stats = get_players(athlete_id)
+        return jsonify(stats), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
