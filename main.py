@@ -14,11 +14,19 @@ def teardown_db(exception):
 # Route pour récupérer les informations des athlètes
 @app.route('/athletes', methods=['POST','GET'])
 def athletes():
+
+    try:
+        players = get_all_players()
+        return jsonify(players), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+@app.route('/one', methods=['POST','GET'])
+def athletes():
     data = request.get_json()
 
     if not data or 'athlete_id' not in data:
-        players = get_all_players()
-        return jsonify(players), 200
+        return jsonify({"error": "Missing athlete_id"}), 400
     athlete_id = data['athlete_id']
     try:
 
