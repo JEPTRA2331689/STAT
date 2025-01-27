@@ -197,24 +197,30 @@ def get_players(athlete_id):
                 LEFT JOIN 
                     team t ON a.teamId = t.teamId
                 WHERE 
-                a.athletesId = %s;
-                
+                    a.athletesId = %s;
             """
-            cursor.execute(sql,(athlete_id,))
+            cursor.execute(sql, (athlete_id,))
             results = cursor.fetchall()
-            players = {
-                    "full_name": f"{results['AthleteFirstName']} {results['AthleteLastName']}",
-                    "athletesId": results['athletesId'],
-                    "teamId": results['teamId'],
-                    "AthleteImage": results['AthleteImage'],
-                    "TeamName": results['TeamName'],
-                    "sportName": results['SportName'],
-                    "division": results['DivisionName']
+
+            # Si la requête retourne des résultats, récupérer le premier élément
+            if results:
+                player = results[0]
+                players = {
+                    "full_name": f"{player['AthleteFirstName']} {player['AthleteLastName']}",
+                    "athletesId": player['athletesId'],
+                    "teamId": player['teamId'],
+                    "AthleteImage": player['AthleteImage'],
+                    "TeamName": player['TeamName'],
+                    "sportName": player['SportName'],
+                    "division": player['DivisionName']
                 }
-        return players
+                return players
+            else:
+                print("Aucun joueur trouvé pour cet ID.")
+                return None
     except Exception as e:
         print(f"Error fetching players: {e}")
-        return []
+        return None
     finally:
         close_db()
 def get_athlete(athlete_id):
