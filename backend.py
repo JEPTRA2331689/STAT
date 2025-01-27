@@ -202,18 +202,15 @@ def get_players(athlete_id):
             """
             cursor.execute(sql,(athlete_id,))
             results = cursor.fetchall()
-            players = [
-                {
-                    "full_name": f"{row['AthleteFirstName']} {row['AthleteLastName']}",
-                    "athletesId": row['athletesId'],
-                    "teamId": row['teamId'],
-                    "AthleteImage": row['AthleteImage'],
-                    "TeamName": row['TeamName'],
-                    "sportName": row['SportName'],
-                    "division": row['DivisionName']
+            players = {
+                    "full_name": f"{results['AthleteFirstName']} {results['AthleteLastName']}",
+                    "athletesId": results['athletesId'],
+                    "teamId": results['teamId'],
+                    "AthleteImage": results['AthleteImage'],
+                    "TeamName": results['TeamName'],
+                    "sportName": results['SportName'],
+                    "division": results['DivisionName']
                 }
-                for row in results
-            ]
         return players
     except Exception as e:
         print(f"Error fetching players: {e}")
