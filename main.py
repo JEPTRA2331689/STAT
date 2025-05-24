@@ -12,7 +12,7 @@ def teardown_db(exception):
     close_db(exception)
 
 # Route pour récupérer les informations des athlètes
-@app.route('/athletes', methods=['POST','GET'])
+@app.route('/athletes', methods=['GET'])
 def athletes():
 
     try:
