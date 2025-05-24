@@ -7,13 +7,13 @@ from flask import g
 def get_db():
     if 'db' not in g:
         g.db = pymysql.connect(
-            host="sql5.freesqldatabase.com",  # Serveur local
-            user="sql5755343",  # Utilisateur par défaut
-            password="jt6JRIJgJB",  # Mot de passe vide par défaut (remplacez si modifié)
-            database="sql5755343",  # Nom de votre base de données
+            host="sql3.freesqldatabase.com",  # Serveur local
+            user="sql3780871",  # Utilisateur par défaut
+            password="4ftT7H3D1N",  # Mot de passe vide par défaut (remplacez si modifié)
+            database="sql3780871",  # Nom de votre base de données
             port=3306,  # Port MySQL par défaut (modifiable dans XAMPP)
             charset="utf8mb4",  # Encodage des caractères
-            cursorclass=pymysql.cursors.DictCursor  # Pour recevoir les résultats sous forme de dictionnaired
+            cursorclass=pymysql.cursors.DictCursor  # Pour recevoir les résultats sous forme de dictionnaire
         )
     return g.db
 
