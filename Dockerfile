@@ -10,12 +10,6 @@ COPY . .
 
 WORKDIR /Stat-app/stat
 
-RUN flask db init
-
-RUN flask db migrate
-
-RUN flask db upgrade
-
 WORKDIR /Stat-app
 
 CMD ["python3","main.py"]
