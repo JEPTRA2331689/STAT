@@ -26,7 +26,7 @@ def athletes():
 def athletes():
 
     try:
-        players = "llllllllll"
+        players = get_all_players()
         return jsonify(players), 200
 
     except Exception as e:
